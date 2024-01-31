@@ -1,6 +1,7 @@
 "use client";
 
 import Main from "@/app/(beforeLogin)/_component/Main";
+import { useSession } from "next-auth/react";
 
 /**
  * 클라이언트에서 훅을 이용해서 리다이렉트 해주는 방식
@@ -9,6 +10,13 @@ import { useRouter } from "next/navigation";
 
 export default function Login() {
   const router = useRouter();
+  const { data: session } = useSession();
+
+  if (session?.user) {
+    router.replace("/home");
+    return null;
+  }
+
   router.replace("i/flow/login");
   return <Main />;
 }
